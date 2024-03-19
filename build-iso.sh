@@ -4,10 +4,15 @@ cd /mnt/
 
 sudo apt-get update && sudo apt-get install -y curl xorriso squashfs-tools syslinux syslinux-efi isolinux fakeroot dumpet gddrescue
 
-curl -X GET -OL https://releases.ubuntu.com/20.04.4/ubuntu-20.04.4-live-server-amd64.iso
+if [ ! -f ubuntu-20.04.4-live-server-amd64.iso ];then
+    curl -X GET -OL https://releases.ubuntu.com/20.04.4/ubuntu-20.04.4-live-server-amd64.iso
+fi
+
+rm -rf iso
+rm -rf filesystem.squashfs
+rm -rf squashfs-root
 
 xorriso -osirrox on -indev "ubuntu-20.04.4-live-server-amd64.iso" -extract / iso && chmod -R +w iso
-
 
 cp iso/casper/filesystem.squashfs .
 
@@ -19,7 +24,12 @@ mount none -t proc /proc; mount none -t sysfs /sys; mount none -t devpts /dev/pt
 
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
+cd /tmp
+
 sudo apt-get update && sudo apt-get install -y wget git zip
+
+rm -rf main.zip
+rm -rf bpbx-scripts-main
 
 wget https://github.com/byteee-com/bpbx-scripts/archive/refs/heads/main.zip
 
@@ -28,7 +38,6 @@ unzip main.zip  -d .
 cd bpbx-scripts-main 
 
 ./install_bpbx.sh
-
 
 systemctl disable accounts-daemon.service
 systemctl disable apparmor.service
@@ -46,6 +55,11 @@ systemctl disable motd-news.timer
 systemctl disable ua-messaging.timer
 systemctl edit getty@tty1
 
+
+umount /proc
+umount /sys
+
+rm -rf /tmp/*
 
  echo ' ' > /etc/resolv.conf
  apt-get clean

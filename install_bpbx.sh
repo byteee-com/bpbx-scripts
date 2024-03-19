@@ -6,7 +6,7 @@
 #     rm "$LOG_FILE"
 # fi
 
-WORKING_DIR=$(pwd)
+WORKING_DIR=/tmp
 
 
 echo -e "\n"
@@ -43,7 +43,7 @@ fi
 echo -e "************************************************************"
 echo -e "*              Installing dependencies...                  *"
 echo -e "************************************************************"
-PACKAGES="apt -y install install redis git-core subversion wget libjansson-dev sngrep sqlite autoconf automake libxml2-dev libncurses5-dev libtool acl cron lame sox ffmpeg aptitude postfix nmap nginx fail2ban"
+PACKAGES="redis git subversion wget libjansson-dev sngrep sqlite autoconf automake libxml2-dev libncurses5-dev libtool acl cron lame sox ffmpeg aptitude postfix nmap nginx fail2ban"
 
 
 echo -e "************************************************************"
@@ -86,11 +86,6 @@ sudo ./configure
 sudo make -j2
 sudo make install
 
-# copy conf
-cp -rf "$WORKING_DIR/config/asterisk/*" /etc/asterisk
-cp -rf "$WORKING_DIR/config/odbc/*" /etc/
-cp -rf "$WORKING_DIR/config/nginx/bpbx.conf" /etc/nginx/conf.d/
-cp -rf "$WORKING_DIR/config/fail2ban/jail.d/asterisk.conf" /etc/fail2ban/jain.d/
 
 # # get ip
 # read -p "Set Default UDP port (default:5060) > " udp_input
@@ -113,6 +108,15 @@ cp -rf "$WORKING_DIR/config/fail2ban/jail.d/asterisk.conf" /etc/fail2ban/jain.d/
 # echo "udpbindaddr=0.0.0.0:${udp_port}" >> /etc/asterisk/sip.conf
 # echo "localnet=${local_ip}" >> /etc/asterisk/sip.conf
 
+# copy conf
+cd $WORKING_DIR
+
+cp -rf config/asterisk/* /etc/asterisk
+cp -rf config/odbc/* /etc/odbc
+cp -rf config/nginx/bpbx.conf /etc/nginx/conf.d
+cp -rf config/fail2ban/jail.d/asterisk.conf /etc/fail2ban/jain.d
+
+
 groupadd asterisk
 useradd -r -g asterisk -s /bin/false asterisk
 
@@ -126,6 +130,9 @@ sudo chmod -R 750 /var/{lib,log,run,spool}/asterisk /usr/lib/asterisk /etc/aster
 echo -e "************************************************************"
 echo -e "*                    Install BPBX Service                  *"
 echo -e "************************************************************"
+
+cd $WORKING_DIR
+
 sudo cp start_bpbx.sh /usr/local/bin/
 sudo cp stop_bpbx.sh /usr/local/bin/
 
