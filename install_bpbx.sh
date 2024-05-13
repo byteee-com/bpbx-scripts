@@ -63,11 +63,21 @@ cmake ../mariadb-connector-odbc/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_U
 cmake --build . --config RelWithDebInfo
 make install
 
+systemctl enable mariadb.service
+/etc/init.d/mysql start
+
 cd $WORKING_DIR
 
 echo -e "************************************************************"
 echo -e "*                 Installing Asterisk packages...                 *"
 echo -e "************************************************************"
+
+wget https://raw.githubusercontent.com/asterisk/third-party/master/pjproject/2.12.1/pjproject-2.12.1.tar.bz2
+
+if [ ! -f pjproject-2.12.1.tar.bz2 ];then
+    echo "pjproject-2.12.1.tar.bz2 not download successfull!";exit
+fi
+
 
 sudo wget http://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-16.30.1.tar.gz
 
@@ -109,10 +119,10 @@ sudo make install
 # echo "localnet=${local_ip}" >> /etc/asterisk/sip.conf
 
 # copy conf
-cd $WORKING_DIR
+cd $WORKING_DIR/bpbx-scripts-main
 
 cp -rf config/asterisk/* /etc/asterisk
-cp -rf config/odbc/* /etc/odbc
+cp -rf config/odbc/* /etc
 cp -rf config/nginx/bpbx.conf /etc/nginx/conf.d
 cp -rf config/fail2ban/jail.d/asterisk.conf /etc/fail2ban/jain.d
 
@@ -123,7 +133,7 @@ useradd -r -g asterisk -s /bin/false asterisk
 echo -e "************************************************************"
 echo -e "*                    Set Permissions                       *"
 echo -e "************************************************************"
-sudo chown -R asterisk: /var/{lib,log,run,spool}/asterisk /usr/lib/asterisk /etc/asterisk
+sudo chown -R asterisk:asterisk /var/{lib,log,run,spool}/asterisk /usr/lib/asterisk /etc/asterisk
 sudo chmod -R 750 /var/{lib,log,run,spool}/asterisk /usr/lib/asterisk /etc/asterisk
 
 
@@ -131,7 +141,7 @@ echo -e "************************************************************"
 echo -e "*                    Install BPBX Service                  *"
 echo -e "************************************************************"
 
-cd $WORKING_DIR
+
 
 sudo cp start_bpbx.sh /usr/local/bin/
 sudo cp stop_bpbx.sh /usr/local/bin/
@@ -153,7 +163,7 @@ echo -e "************************************************************"
 DB_USER="root"
 DB_PASS=""
 
-mysql -u "$DB_USER" -p"$DB_PASS" -e "CREATE DATABASE IF NOT EXISTS bpbx;"
+mysql -u"$DB_USER" -p"$DB_PASS" -e "CREATE DATABASE IF NOT EXISTS bpbx;"
 
 if [ -f "db.sql" ]; then
     mysql -u "$DB_USER"  bpbx < db.sql
@@ -169,25 +179,24 @@ if [ ! -d "$jar_dir" ]; then
     mkdir -p "$jar_dir"
 fi
 
-cp -rf "$WORKDIR/bpbx.jar"  /opt/bpbx/
+cp -rf "$WORKDIR/bpbx-scripts-main/bpbx.jar"  /opt/bpbx/
 
-cp -rf "$WORKDIR/web" /opt/bpbx/web
+cp -rf "$WORKDIR/bpbx-scripts-main/web" /opt/bpbx/web
 
+sudo locale-gen en_US.UTF-8
 
-systemctl enable mariadb.service
-systemctl restart mariadb.service
-
-systemctl enable fail2ban
-systemctl start fail2ban
-
-sudo systemctl start asterisk 
-sudo systemctl enable asterisk
-
+sudo systemctl enable fail2ban
+sudo systemctl enable bpbx
+# sudo systemctl enable asterisk
 sudo systemctl enable nginx
+
+ISCHROOT=`ischroot;echo $?`
+
+
+if [ $ISCHROOT -ne 0 ]; then
+# sudo systemctl start asterisk 
 sudo systemctl start nginx
+sudo systemctl start fail2ban
+sudo systemctl start bpbx
+fi
 
-sudo systemctl enable bpbx.service
-sudo systemctl start bpbx.service
-
-sudo systemctl enable fail2ban.service
-sudo systemctl start fail2ban.service
