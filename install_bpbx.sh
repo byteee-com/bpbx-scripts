@@ -57,11 +57,29 @@ echo -e "************************************************************"
 echo -e "*             Install Mariadb Driver....                   *"
 echo -e "************************************************************"
 
-git clone https://github.com/MariaDB/mariadb-connector-odbc.git
-mkdir build && cd build
-cmake ../mariadb-connector-odbc/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_UNIT_TESTS=Off -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_SSL=OPENSSL
-cmake --build . --config RelWithDebInfo
-make install
+
+cd /usr/src
+wget https://dlm.mariadb.com/2454041/Connectors/odbc/connector-odbc-3.1.17/mariadb-connector-odbc-3.1.17-ubuntu-focal-amd64.tar.gz?_ga=2.98608797.2009862678.1668852212-363683683.1668507180
+mv mariadb-connector-odbc-3.1.17-ubuntu-focal-amd64.tar.gz\?_ga\=2.98608797.2009862678.1668852212-363683683.1668507180 mariadb-connector.tar.gz
+tar -xvzf mariadb-connector.tar.gz
+cd mariadb-connector-odbc-3.1.17-ubuntu-focal-amd64/
+sudo install lib/mariadb/libmaodbc.so /usr/lib/
+sudo install -d /usr/lib/mariadb/
+sudo install -d /usr/lib/mariadb/plugin/
+sudo install lib/mariadb/plugin/auth_gssapi_client.so /usr/lib/mariadb/plugin/
+sudo install lib/mariadb/plugin/caching_sha2_password.so /usr/lib/mariadb/plugin/
+sudo install lib/mariadb/plugin/client_ed25519.so /usr/lib/mariadb/plugin/
+sudo install lib/mariadb/plugin/dialog.so /usr/lib/mariadb/plugin/
+sudo install lib/mariadb/plugin/mysql_clear_password.so /usr/lib/mariadb/plugin/
+sudo install lib/mariadb/plugin/sha256_password.so /usr/lib/mariadb/plugin/
+sudo install lib/mariadb/libmariadb.so.3 /usr/lib/x86_64-linux-gnu/
+ldd /usr/lib/libmaodbc.so
+
+# git clone https://github.com/MariaDB/mariadb-connector-odbc.git
+# mkdir build && cd build
+# cmake ../mariadb-connector-odbc/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_UNIT_TESTS=Off -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_SSL=OPENSSL
+# cmake --build . --config RelWithDebInfo
+# make install
 
 systemctl enable mariadb.service
 /etc/init.d/mysql start
@@ -122,9 +140,9 @@ sudo make install
 cd $WORKING_DIR/bpbx-scripts-main
 
 cp -rf config/asterisk/* /etc/asterisk
-cp -rf config/odbc/* /etc
-cp -rf config/nginx/bpbx.conf /etc/nginx/conf.d
-cp -rf config/fail2ban/jail.d/asterisk.conf /etc/fail2ban/jain.d
+cp -rf config/odbc/* /etc/
+cp -rf config/nginx/bpbx.conf /etc/nginx/conf.d/
+cp -rf config/fail2ban/jail.d/asterisk.conf /etc/fail2ban/jail.d/
 
 
 groupadd asterisk

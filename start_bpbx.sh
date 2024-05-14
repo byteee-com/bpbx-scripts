@@ -1,4 +1,5 @@
 #!/bin/bash
 
 # start
-nohup java -jar /opt/bpbx/bpbx.jar >/var/log/bpbx 2>&1 &
+/usr/sbin/asterisk -mqf -C /etc/asterisk/asterisk.conf
+nohup java -jar /opt/bpbx/bpbx.jar >> /var/log/bpbx 2>&1 &

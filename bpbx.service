@@ -6,7 +6,8 @@ After=network.target
 User=root
 ExecStart=/usr/local/bin/start_bpbx.sh
 ExecStop=/usr/local/bin/stop_bpbx.sh
-Type=simple
+ExecReload=/usr/sbin/asterisk -rx 'core reload'
+Type=forking
 
 [Install]
 WantedBy=multi-user.target
