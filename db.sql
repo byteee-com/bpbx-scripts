@@ -1079,7 +1079,7 @@ CREATE TABLE `cel` (
     `accountcode` varchar(20) NOT NULL,
     `uniqueid` varchar(32) NOT NULL,
     `linkedid` varchar(32) NOT NULL,
-    `peer` varchar(80) NOT NULL,
+    `peer` varchar(255) NOT NULL,
     `userdeftype` varchar(255) NOT NULL,
     `eventextra` varchar(255)  NULL,
     `userfield` varchar(255) NOT NULL,
