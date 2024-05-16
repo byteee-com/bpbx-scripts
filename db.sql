@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `alembic_version`;
 CREATE TABLE `alembic_version` (
   `version_num` varchar(32) NOT NULL,
   PRIMARY KEY (`version_num`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for cdr
@@ -54,7 +54,7 @@ CREATE TABLE `cdr` (
   `sequence` int DEFAULT NULL,
   `calldate` datetime(6) DEFAULT NULL,
   `id` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for cel
@@ -62,34 +62,34 @@ CREATE TABLE `cdr` (
 DROP TABLE IF EXISTS `cel`;
 CREATE TABLE `cel` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `eventtype` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `eventtype` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `eventtime` datetime DEFAULT NULL,
-  `cid_name` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cid_num` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cid_ani` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cid_rdnis` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cid_dnid` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `exten` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `context` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `channame` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `src` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `dst` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `channel` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `dstchannel` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `appname` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `appdata` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cid_name` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cid_num` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cid_ani` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cid_rdnis` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cid_dnid` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `exten` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `context` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `channame` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `src` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dst` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `channel` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dstchannel` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `appname` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `appdata` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `amaflags` int DEFAULT NULL,
-  `accountcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `uniqueid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `linkedid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `peer` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `userdeftype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `eventextra` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `userfield` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `accountcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `uniqueid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `linkedid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `peer` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `userdeftype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `eventextra` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `userfield` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `uniqueid_index` (`uniqueid`),
   KEY `linkedid_index` (`linkedid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for conference
@@ -103,7 +103,7 @@ CREATE TABLE `conference` (
   `max_members` int NOT NULL,
   `pin` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for conference_extension
@@ -114,7 +114,7 @@ CREATE TABLE `conference_extension` (
   `conference_id` varchar(255) DEFAULT NULL,
   `extension_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for event
@@ -123,10 +123,10 @@ DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `create_time` datetime(6) DEFAULT NULL,
-  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7856 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7856 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for extension
@@ -136,13 +136,13 @@ CREATE TABLE `extension` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `number` varchar(255) NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `video_support` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_j1ksao3mm5l625by39q9aafos` (`number`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for extensions
@@ -158,7 +158,7 @@ CREATE TABLE `extensions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `context` (`context`,`exten`,`priority`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for iax_friend
@@ -212,7 +212,7 @@ CREATE TABLE `iax_friend` (
   `type` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for iaxpeers
@@ -272,7 +272,7 @@ CREATE TABLE `iaxpeers` (
   KEY `iaxpeers_name_ipaddr_port` (`name`,`ipaddr`,`port`),
   KEY `iaxpeers_ipaddr_port` (`ipaddr`,`port`),
   KEY `iaxpeers_host_port` (`host`,`port`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for meetme
@@ -293,7 +293,7 @@ CREATE TABLE `meetme` (
   `members` int NOT NULL,
   PRIMARY KEY (`bookid`),
   KEY `meetme_confno_start_end` (`confno`,`starttime`,`endtime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for musiconhold
@@ -309,7 +309,7 @@ CREATE TABLE `musiconhold` (
   `format` varchar(10) DEFAULT NULL,
   `stamp` datetime DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for musiconhold_entry
@@ -321,7 +321,7 @@ CREATE TABLE `musiconhold_entry` (
   `entry` varchar(1024) NOT NULL,
   PRIMARY KEY (`name`,`position`),
   CONSTRAINT `fk_musiconhold_entry_name_musiconhold` FOREIGN KEY (`name`) REFERENCES `musiconhold` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for paging
@@ -333,7 +333,7 @@ CREATE TABLE `paging` (
   `number` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_q4gkfafaewvmtf9nb3gjhf6vg` (`number`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for paging_extension
@@ -346,7 +346,7 @@ CREATE TABLE `paging_extension` (
   PRIMARY KEY (`id`),
   KEY `FKjwwqarc4ojxnk9siqfts8tva0` (`extension_id`),
   CONSTRAINT `FKjwwqarc4ojxnk9siqfts8tva0` FOREIGN KEY (`extension_id`) REFERENCES `sippeers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_aors
@@ -371,7 +371,7 @@ CREATE TABLE `ps_aors` (
   UNIQUE KEY `id` (`id`),
   KEY `ps_aors_id` (`id`),
   KEY `ps_aors_qualifyfreq_contact` (`qualify_frequency`,`contact`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_asterisk_publications
@@ -387,7 +387,7 @@ CREATE TABLE `ps_asterisk_publications` (
   `mailbox_state_filter` varchar(256) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_asterisk_publications_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_auths
@@ -403,7 +403,7 @@ CREATE TABLE `ps_auths` (
   `username` varchar(40) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_auths_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_contacts
@@ -429,7 +429,7 @@ CREATE TABLE `ps_contacts` (
   UNIQUE KEY `ps_contacts_uq` (`id`,`reg_server`),
   KEY `ps_contacts_id` (`id`),
   KEY `ps_contacts_qualifyfreq_exp` (`qualify_frequency`,`expiration_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_domain_aliases
@@ -440,7 +440,7 @@ CREATE TABLE `ps_domain_aliases` (
   `domain` varchar(80) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_domain_aliases_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_endpoint_id_ips
@@ -454,7 +454,7 @@ CREATE TABLE `ps_endpoint_id_ips` (
   `match_header` varchar(255) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_endpoint_id_ips_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_endpoints
@@ -597,7 +597,7 @@ CREATE TABLE `ps_endpoints` (
   `security_mechanisms` varchar(512) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_endpoints_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_globals
@@ -633,7 +633,7 @@ CREATE TABLE `ps_globals` (
   `all_codecs_on_empty_reinvite` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_globals_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_inbound_publications
@@ -646,7 +646,7 @@ CREATE TABLE `ps_inbound_publications` (
   `event_asterisk-mwi` varchar(40) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_inbound_publications_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_outbound_publishes
@@ -669,7 +669,7 @@ CREATE TABLE `ps_outbound_publishes` (
   `@exten` varchar(256) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_outbound_publishes_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_registrations
@@ -697,7 +697,7 @@ CREATE TABLE `ps_registrations` (
   `security_mechanisms` varchar(512) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_registrations_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_resource_list
@@ -712,7 +712,7 @@ CREATE TABLE `ps_resource_list` (
   `resource_display_name` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_resource_list_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_subscription_persistence
@@ -734,7 +734,7 @@ CREATE TABLE `ps_subscription_persistence` (
   `prune_on_boot` enum('yes','no') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_subscription_persistence_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_systems
@@ -755,7 +755,7 @@ CREATE TABLE `ps_systems` (
   `disable_rport` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_systems_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for ps_transports
@@ -787,7 +787,7 @@ CREATE TABLE `ps_transports` (
   `allow_wildcard_certs` enum('yes','no') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_transports_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for queue_members
@@ -805,7 +805,7 @@ CREATE TABLE `queue_members` (
   `ringinuse` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   PRIMARY KEY (`queue_name`,`interface`),
   UNIQUE KEY `uniqueid` (`uniqueid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for queue_rules
@@ -816,7 +816,7 @@ CREATE TABLE `queue_rules` (
   `time` varchar(32) NOT NULL,
   `min_penalty` varchar(32) NOT NULL,
   `max_penalty` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for queues
@@ -879,7 +879,7 @@ CREATE TABLE `queues` (
   `defaultrule` varchar(128) DEFAULT NULL,
   `timeoutpriority` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for sippeers
@@ -986,7 +986,7 @@ CREATE TABLE `sippeers` (
   KEY `sippeers_name_host` (`name`,`host`),
   KEY `sippeers_ipaddr_port` (`ipaddr`,`port`),
   KEY `sippeers_host_port` (`host`,`port`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for user
@@ -999,7 +999,7 @@ CREATE TABLE `user` (
   `username` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_sb8bbouer5wak8vyiiy4pf2bx` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for voicemail
@@ -1045,7 +1045,7 @@ CREATE TABLE `voicemail` (
   KEY `voicemail_context` (`context`),
   KEY `voicemail_mailbox_context` (`mailbox`,`context`),
   KEY `voicemail_imapuser` (`imapuser`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for voicemail_messages
@@ -1067,7 +1067,7 @@ CREATE TABLE `voicemail_messages` (
   `msg_id` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`dir`,`msgnum`),
   KEY `voicemail_messages_dir` (`dir`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 INSERT INTO `bpbx`.`user` (`id`, `name`, `password`, `username`) VALUES (6, NULL, '$2a$10$.rW3MLTvv2cGBFOfClDy0.S816TJthjsPi3Rgeg2fJ1olkfc4A6ZS', 'admin');

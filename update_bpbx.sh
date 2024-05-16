@@ -21,7 +21,7 @@ chown -R asterisk:asterisk /etc/asterisk
 
 
 
-cp bpbx.jar /opt/
+cp -rf bpbx.jar /opt/
 
 
 cp -rf web/ /opt/bpbx/web/

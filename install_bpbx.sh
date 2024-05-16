@@ -58,7 +58,6 @@ echo -e "*             Install Mariadb Driver....                   *"
 echo -e "************************************************************"
 
 
-cd /usr/src
 wget https://dlm.mariadb.com/2454041/Connectors/odbc/connector-odbc-3.1.17/mariadb-connector-odbc-3.1.17-ubuntu-focal-amd64.tar.gz?_ga=2.98608797.2009862678.1668852212-363683683.1668507180
 mv mariadb-connector-odbc-3.1.17-ubuntu-focal-amd64.tar.gz\?_ga\=2.98608797.2009862678.1668852212-363683683.1668507180 mariadb-connector.tar.gz
 tar -xvzf mariadb-connector.tar.gz
