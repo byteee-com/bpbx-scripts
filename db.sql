@@ -5,16 +5,16 @@
  Source Server Type    : MySQL
  Source Server Version : 80022 (8.0.22)
  Source Host           : localhost:3306
- Source Schema         : test-asterisk
+ Source Schema         : bpbx
 
  Target Server Type    : MySQL
  Target Server Version : 80022 (8.0.22)
  File Encoding         : 65001
 
- Date: 04/03/2024 14:30:02
+ Date: 16/05/2024 15:29:54
 */
 
--- SET NAMES utf8mb4;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -24,23 +24,13 @@ DROP TABLE IF EXISTS `alembic_version`;
 CREATE TABLE `alembic_version` (
   `version_num` varchar(32) NOT NULL,
   PRIMARY KEY (`version_num`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of alembic_version
--- ----------------------------
-BEGIN;
-INSERT INTO `alembic_version` (`version_num`) VALUES ('39428242f7f5');
-INSERT INTO `alembic_version` (`version_num`) VALUES ('54cde9847798');
-INSERT INTO `alembic_version` (`version_num`) VALUES ('ccf795ee535f');
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for cdr
 -- ----------------------------
 DROP TABLE IF EXISTS `cdr`;
 CREATE TABLE `cdr` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
   `accountcode` varchar(80) DEFAULT NULL,
   `src` varchar(80) DEFAULT NULL,
   `dst` varchar(80) DEFAULT NULL,
@@ -56,20 +46,103 @@ CREATE TABLE `cdr` (
   `duration` int DEFAULT NULL,
   `billsec` int DEFAULT NULL,
   `disposition` varchar(45) DEFAULT NULL,
-  `amaflags` varchar(45) DEFAULT NULL,
+  `amaflags` int NOT NULL,
   `userfield` varchar(256) DEFAULT NULL,
   `uniqueid` varchar(150) DEFAULT NULL,
   `linkedid` varchar(150) DEFAULT NULL,
   `peeraccount` varchar(80) DEFAULT NULL,
   `sequence` int DEFAULT NULL,
-   PRIMARY KEY (`id`),
-) ENGINE=InnoDB;
+  `calldate` datetime(6) DEFAULT NULL,
+  `id` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
--- Records of cdr
+-- Table structure for cel
 -- ----------------------------
-BEGIN;
-COMMIT;
+DROP TABLE IF EXISTS `cel`;
+CREATE TABLE `cel` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `eventtype` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `eventtime` datetime DEFAULT NULL,
+  `cid_name` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cid_num` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cid_ani` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cid_rdnis` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cid_dnid` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `exten` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `context` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `channame` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `src` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `dst` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `channel` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `dstchannel` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `appname` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `appdata` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `amaflags` int DEFAULT NULL,
+  `accountcode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `uniqueid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `linkedid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `peer` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `userdeftype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `eventextra` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `userfield` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniqueid_index` (`uniqueid`),
+  KEY `linkedid_index` (`linkedid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for conference
+-- ----------------------------
+DROP TABLE IF EXISTS `conference`;
+CREATE TABLE `conference` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `number` varchar(255) NOT NULL,
+  `is_record` varchar(255) NOT NULL,
+  `max_members` int NOT NULL,
+  `pin` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for conference_extension
+-- ----------------------------
+DROP TABLE IF EXISTS `conference_extension`;
+CREATE TABLE `conference_extension` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `conference_id` varchar(255) DEFAULT NULL,
+  `extension_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for event
+-- ----------------------------
+DROP TABLE IF EXISTS `event`;
+CREATE TABLE `event` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `create_time` datetime(6) DEFAULT NULL,
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7856 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for extension
+-- ----------------------------
+DROP TABLE IF EXISTS `extension`;
+CREATE TABLE `extension` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `number` varchar(255) NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `video_support` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_j1ksao3mm5l625by39q9aafos` (`number`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for extensions
@@ -85,13 +158,61 @@ CREATE TABLE `extensions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `context` (`context`,`exten`,`priority`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
--- Records of extensions
+-- Table structure for iax_friend
 -- ----------------------------
-BEGIN;
-COMMIT;
+DROP TABLE IF EXISTS `iax_friend`;
+CREATE TABLE `iax_friend` (
+  `id` int NOT NULL,
+  `accountcode` varchar(255) DEFAULT NULL,
+  `adsi` varchar(255) DEFAULT NULL,
+  `allow` varchar(255) DEFAULT NULL,
+  `amaflags` varchar(255) DEFAULT NULL,
+  `auth` varchar(255) DEFAULT NULL,
+  `callerid` varchar(255) DEFAULT NULL,
+  `cid_number` varchar(255) DEFAULT NULL,
+  `codecpriority` varchar(255) DEFAULT NULL,
+  `context` varchar(255) DEFAULT NULL,
+  `dbsecret` varchar(255) DEFAULT NULL,
+  `defaultip` varchar(255) DEFAULT NULL,
+  `disallow` varchar(255) DEFAULT NULL,
+  `encryption` varchar(255) DEFAULT NULL,
+  `forcejitterbuffer` varchar(255) DEFAULT NULL,
+  `fullname` varchar(255) DEFAULT NULL,
+  `host` varchar(255) DEFAULT NULL,
+  `inkeys` varchar(255) DEFAULT NULL,
+  `ipaddr` varchar(255) DEFAULT NULL,
+  `jitterbuffer` varchar(255) DEFAULT NULL,
+  `language` varchar(255) DEFAULT NULL,
+  `mailbox` varchar(255) DEFAULT NULL,
+  `mask` varchar(255) DEFAULT NULL,
+  `maxauthreq` int NOT NULL,
+  `mohinterpret` varchar(255) DEFAULT NULL,
+  `mohsuggest` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `outkeys` varchar(255) DEFAULT NULL,
+  `port` int NOT NULL,
+  `qualify` varchar(255) DEFAULT NULL,
+  `qualifyfreqnotok` varchar(255) DEFAULT NULL,
+  `qualifyfreqok` varchar(255) DEFAULT NULL,
+  `qualifysmoothing` varchar(255) DEFAULT NULL,
+  `regcontext` varchar(255) DEFAULT NULL,
+  `regexten` varchar(255) DEFAULT NULL,
+  `regseconds` int NOT NULL,
+  `requirecalltoken` varchar(255) DEFAULT NULL,
+  `secret` varchar(255) DEFAULT NULL,
+  `sendani` varchar(255) DEFAULT NULL,
+  `setvar` varchar(255) DEFAULT NULL,
+  `sourceaddress` varchar(255) DEFAULT NULL,
+  `timezone` varchar(255) DEFAULT NULL,
+  `transfer` varchar(255) DEFAULT NULL,
+  `trunk` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for iaxpeers
@@ -151,13 +272,7 @@ CREATE TABLE `iaxpeers` (
   KEY `iaxpeers_name_ipaddr_port` (`name`,`ipaddr`,`port`),
   KEY `iaxpeers_ipaddr_port` (`ipaddr`,`port`),
   KEY `iaxpeers_host_port` (`host`,`port`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of iaxpeers
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for meetme
@@ -178,13 +293,7 @@ CREATE TABLE `meetme` (
   `members` int NOT NULL,
   PRIMARY KEY (`bookid`),
   KEY `meetme_confno_start_end` (`confno`,`starttime`,`endtime`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of meetme
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for musiconhold
@@ -200,13 +309,7 @@ CREATE TABLE `musiconhold` (
   `format` varchar(10) DEFAULT NULL,
   `stamp` datetime DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of musiconhold
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for musiconhold_entry
@@ -218,13 +321,32 @@ CREATE TABLE `musiconhold_entry` (
   `entry` varchar(1024) NOT NULL,
   PRIMARY KEY (`name`,`position`),
   CONSTRAINT `fk_musiconhold_entry_name_musiconhold` FOREIGN KEY (`name`) REFERENCES `musiconhold` (`name`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
--- Records of musiconhold_entry
+-- Table structure for paging
 -- ----------------------------
-BEGIN;
-COMMIT;
+DROP TABLE IF EXISTS `paging`;
+CREATE TABLE `paging` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `number` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_q4gkfafaewvmtf9nb3gjhf6vg` (`number`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for paging_extension
+-- ----------------------------
+DROP TABLE IF EXISTS `paging_extension`;
+CREATE TABLE `paging_extension` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `paging_id` bigint DEFAULT NULL,
+  `extension_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKjwwqarc4ojxnk9siqfts8tva0` (`extension_id`),
+  CONSTRAINT `FKjwwqarc4ojxnk9siqfts8tva0` FOREIGN KEY (`extension_id`) REFERENCES `sippeers` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_aors
@@ -249,13 +371,7 @@ CREATE TABLE `ps_aors` (
   UNIQUE KEY `id` (`id`),
   KEY `ps_aors_id` (`id`),
   KEY `ps_aors_qualifyfreq_contact` (`qualify_frequency`,`contact`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_aors
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_asterisk_publications
@@ -271,13 +387,7 @@ CREATE TABLE `ps_asterisk_publications` (
   `mailbox_state_filter` varchar(256) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_asterisk_publications_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_asterisk_publications
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_auths
@@ -293,13 +403,7 @@ CREATE TABLE `ps_auths` (
   `username` varchar(40) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_auths_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_auths
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_contacts
@@ -325,13 +429,7 @@ CREATE TABLE `ps_contacts` (
   UNIQUE KEY `ps_contacts_uq` (`id`,`reg_server`),
   KEY `ps_contacts_id` (`id`),
   KEY `ps_contacts_qualifyfreq_exp` (`qualify_frequency`,`expiration_time`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_contacts
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_domain_aliases
@@ -342,13 +440,7 @@ CREATE TABLE `ps_domain_aliases` (
   `domain` varchar(80) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_domain_aliases_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_domain_aliases
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_endpoint_id_ips
@@ -362,13 +454,7 @@ CREATE TABLE `ps_endpoint_id_ips` (
   `match_header` varchar(255) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_endpoint_id_ips_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_endpoint_id_ips
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_endpoints
@@ -511,13 +597,7 @@ CREATE TABLE `ps_endpoints` (
   `security_mechanisms` varchar(512) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_endpoints_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_endpoints
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_globals
@@ -553,13 +633,7 @@ CREATE TABLE `ps_globals` (
   `all_codecs_on_empty_reinvite` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_globals_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_globals
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_inbound_publications
@@ -572,13 +646,7 @@ CREATE TABLE `ps_inbound_publications` (
   `event_asterisk-mwi` varchar(40) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_inbound_publications_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_inbound_publications
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_outbound_publishes
@@ -601,13 +669,7 @@ CREATE TABLE `ps_outbound_publishes` (
   `@exten` varchar(256) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_outbound_publishes_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_outbound_publishes
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_registrations
@@ -635,13 +697,7 @@ CREATE TABLE `ps_registrations` (
   `security_mechanisms` varchar(512) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_registrations_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_registrations
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_resource_list
@@ -656,13 +712,7 @@ CREATE TABLE `ps_resource_list` (
   `resource_display_name` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_resource_list_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_resource_list
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_subscription_persistence
@@ -684,13 +734,7 @@ CREATE TABLE `ps_subscription_persistence` (
   `prune_on_boot` enum('yes','no') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_subscription_persistence_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_subscription_persistence
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_systems
@@ -711,13 +755,7 @@ CREATE TABLE `ps_systems` (
   `disable_rport` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_systems_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_systems
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ps_transports
@@ -749,13 +787,7 @@ CREATE TABLE `ps_transports` (
   `allow_wildcard_certs` enum('yes','no') DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   KEY `ps_transports_id` (`id`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of ps_transports
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for queue_members
@@ -773,13 +805,7 @@ CREATE TABLE `queue_members` (
   `ringinuse` enum('0','1','off','on','false','true','no','yes') DEFAULT NULL,
   PRIMARY KEY (`queue_name`,`interface`),
   UNIQUE KEY `uniqueid` (`uniqueid`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of queue_members
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for queue_rules
@@ -790,13 +816,7 @@ CREATE TABLE `queue_rules` (
   `time` varchar(32) NOT NULL,
   `min_penalty` varchar(32) NOT NULL,
   `max_penalty` varchar(32) NOT NULL
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of queue_rules
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for queues
@@ -859,13 +879,7 @@ CREATE TABLE `queues` (
   `defaultrule` varchar(128) DEFAULT NULL,
   `timeoutpriority` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of queues
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for sippeers
@@ -883,16 +897,16 @@ CREATE TABLE `sippeers` (
   `useragent` varchar(255) DEFAULT NULL,
   `lastms` int DEFAULT NULL,
   `host` varchar(40) DEFAULT NULL,
-  `type` enum('friend','user','peer') DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
   `context` varchar(40) DEFAULT NULL,
   `permit` varchar(95) DEFAULT NULL,
   `deny` varchar(95) DEFAULT NULL,
   `secret` varchar(40) DEFAULT NULL,
   `md5secret` varchar(40) DEFAULT NULL,
   `remotesecret` varchar(40) DEFAULT NULL,
-  `transport` enum('udp','tcp','tls','ws','wss','udp,tcp','tcp,udp') DEFAULT NULL,
-  `dtmfmode` enum('rfc2833','info','shortinfo','inband','auto') DEFAULT NULL,
-  `directmedia` enum('yes','no','nonat','update','outgoing') DEFAULT NULL,
+  `transport` varchar(255) DEFAULT NULL,
+  `dtmfmode` varchar(255) DEFAULT NULL,
+  `directmedia` varchar(255) DEFAULT NULL,
   `nat` varchar(29) DEFAULT NULL,
   `callgroup` varchar(40) DEFAULT NULL,
   `pickupgroup` varchar(40) DEFAULT NULL,
@@ -900,21 +914,21 @@ CREATE TABLE `sippeers` (
   `disallow` varchar(200) DEFAULT NULL,
   `allow` varchar(200) DEFAULT NULL,
   `insecure` varchar(40) DEFAULT NULL,
-  `trustrpid` enum('yes','no') DEFAULT NULL,
-  `progressinband` enum('yes','no','never') DEFAULT NULL,
-  `promiscredir` enum('yes','no') DEFAULT NULL,
-  `useclientcode` enum('yes','no') DEFAULT NULL,
+  `trustrpid` varchar(255) DEFAULT NULL,
+  `progressinband` varchar(255) DEFAULT NULL,
+  `promiscredir` varchar(255) DEFAULT NULL,
+  `useclientcode` varchar(255) DEFAULT NULL,
   `accountcode` varchar(80) DEFAULT NULL,
   `setvar` varchar(200) DEFAULT NULL,
   `callerid` varchar(40) DEFAULT NULL,
   `amaflags` varchar(40) DEFAULT NULL,
-  `callcounter` enum('yes','no') DEFAULT NULL,
+  `callcounter` varchar(255) DEFAULT NULL,
   `busylevel` int DEFAULT NULL,
-  `allowoverlap` enum('yes','no') DEFAULT NULL,
-  `allowsubscribe` enum('yes','no') DEFAULT NULL,
-  `videosupport` enum('yes','no') DEFAULT NULL,
+  `allowoverlap` varchar(255) DEFAULT NULL,
+  `allowsubscribe` varchar(255) DEFAULT NULL,
+  `videosupport` varchar(255) DEFAULT NULL,
   `maxcallbitrate` int DEFAULT NULL,
-  `rfc2833compensate` enum('yes','no') DEFAULT NULL,
+  `rfc2833compensate` varchar(255) DEFAULT NULL,
   `mailbox` varchar(40) DEFAULT NULL,
   `session-timers` enum('accept','refuse','originate') DEFAULT NULL,
   `session-expires` int DEFAULT NULL,
@@ -928,52 +942,64 @@ CREATE TABLE `sippeers` (
   `defaultip` varchar(45) DEFAULT NULL,
   `rtptimeout` int DEFAULT NULL,
   `rtpholdtimeout` int DEFAULT NULL,
-  `sendrpid` enum('yes','no') DEFAULT NULL,
+  `sendrpid` varchar(255) DEFAULT NULL,
   `outboundproxy` varchar(40) DEFAULT NULL,
   `callbackextension` varchar(40) DEFAULT NULL,
   `timert1` int DEFAULT NULL,
   `timerb` int DEFAULT NULL,
   `qualifyfreq` int DEFAULT NULL,
-  `constantssrc` enum('yes','no') DEFAULT NULL,
+  `constantssrc` varchar(255) DEFAULT NULL,
   `contactpermit` varchar(95) DEFAULT NULL,
   `contactdeny` varchar(95) DEFAULT NULL,
-  `usereqphone` enum('yes','no') DEFAULT NULL,
-  `textsupport` enum('yes','no') DEFAULT NULL,
-  `faxdetect` enum('yes','no') DEFAULT NULL,
-  `buggymwi` enum('yes','no') DEFAULT NULL,
+  `usereqphone` varchar(255) DEFAULT NULL,
+  `textsupport` varchar(255) DEFAULT NULL,
+  `faxdetect` varchar(255) DEFAULT NULL,
+  `buggymwi` varchar(255) DEFAULT NULL,
   `auth` varchar(40) DEFAULT NULL,
   `fullname` varchar(40) DEFAULT NULL,
   `trunkname` varchar(40) DEFAULT NULL,
   `cid_number` varchar(40) DEFAULT NULL,
-  `callingpres` enum('allowed_not_screened','allowed_passed_screen','allowed_failed_screen','allowed','prohib_not_screened','prohib_passed_screen','prohib_failed_screen','prohib') DEFAULT NULL,
+  `callingpres` varchar(255) DEFAULT NULL,
   `mohinterpret` varchar(40) DEFAULT NULL,
   `mohsuggest` varchar(40) DEFAULT NULL,
   `parkinglot` varchar(40) DEFAULT NULL,
-  `hasvoicemail` enum('yes','no') DEFAULT NULL,
-  `subscribemwi` enum('yes','no') DEFAULT NULL,
+  `hasvoicemail` varchar(255) DEFAULT NULL,
+  `subscribemwi` varchar(255) DEFAULT NULL,
   `vmexten` varchar(40) DEFAULT NULL,
-  `autoframing` enum('yes','no') DEFAULT NULL,
+  `autoframing` varchar(255) DEFAULT NULL,
   `rtpkeepalive` int DEFAULT NULL,
   `call-limit` int DEFAULT NULL,
-  `g726nonstandard` enum('yes','no') DEFAULT NULL,
-  `ignoresdpversion` enum('yes','no') DEFAULT NULL,
-  `allowtransfer` enum('yes','no') DEFAULT NULL,
-  `dynamic` enum('yes','no') DEFAULT NULL,
+  `g726nonstandard` varchar(255) DEFAULT NULL,
+  `ignoresdpversion` varchar(255) DEFAULT NULL,
+  `allowtransfer` varchar(255) DEFAULT NULL,
+  `dynamic` varchar(255) DEFAULT NULL,
   `path` varchar(256) DEFAULT NULL,
-  `supportpath` enum('yes','no') DEFAULT NULL,
+  `supportpath` varchar(255) DEFAULT NULL,
+  `call_limit` int NOT NULL,
+  `session_expires` int NOT NULL,
+  `session_minse` int NOT NULL,
+  `session_refresher` varchar(255) DEFAULT NULL,
+  `session_timers` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `sippeers_name` (`name`),
   KEY `sippeers_name_host` (`name`,`host`),
   KEY `sippeers_ipaddr_port` (`ipaddr`,`port`),
   KEY `sippeers_host_port` (`host`,`port`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
--- Records of sippeers
+-- Table structure for user
 -- ----------------------------
-BEGIN;
-COMMIT;
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_sb8bbouer5wak8vyiiy4pf2bx` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for voicemail
@@ -1019,13 +1045,7 @@ CREATE TABLE `voicemail` (
   KEY `voicemail_context` (`context`),
   KEY `voicemail_mailbox_context` (`mailbox`,`context`),
   KEY `voicemail_imapuser` (`imapuser`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of voicemail
--- ----------------------------
-BEGIN;
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for voicemail_messages
@@ -1047,55 +1067,17 @@ CREATE TABLE `voicemail_messages` (
   `msg_id` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`dir`,`msgnum`),
   KEY `voicemail_messages_dir` (`dir`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of voicemail_messages
--- ----------------------------
-BEGIN;
-COMMIT;
-
-
-DROP TABLE IF EXISTS `cel`;
-CREATE TABLE `cel` (
-  `id` int(11) NOT NULL auto_increment,
-    `eventtype` varchar(30) NOT NULL,
-    `eventtime` datetime NOT NULL,
-    `cid_name` varchar(80) NOT NULL,
-    `cid_num` varchar(80) NOT NULL,
-    `cid_ani` varchar(80) NOT NULL,
-    `cid_rdnis` varchar(80) NOT NULL,
-    `cid_dnid` varchar(80) NOT NULL,
-    `exten` varchar(80) NOT NULL,
-    `context` varchar(80) NOT NULL,
-    `channame` varchar(80) NOT NULL,
-    `src` varchar(80) NULL,
-    `dst` varchar(80) NULL,
-    `channel` varchar(80) NULL,
-    `dstchannel` varchar(80) NULL,
-    `appname` varchar(80) NOT NULL,
-    `appdata` varchar(80) NOT NULL,
-    `amaflags` int(11) NOT NULL,
-    `accountcode` varchar(20) NOT NULL,
-    `uniqueid` varchar(32) NOT NULL,
-    `linkedid` varchar(32) NOT NULL,
-    `peer` varchar(255) NOT NULL,
-    `userdeftype` varchar(255) NOT NULL,
-    `eventextra` varchar(255)  NULL,
-    `userfield` varchar(255) NOT NULL,
-    PRIMARY KEY  (`id`),
-    KEY `uniqueid_index` (`uniqueid`),
-    KEY `linkedid_index` (`linkedid`)
-) ENGINE=InnoDB;
-
--- ----------------------------
--- Records of voicemail_messages
--- ----------------------------
-BEGIN;
-COMMIT;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 INSERT INTO `bpbx`.`user` (`id`, `name`, `password`, `username`) VALUES (6, NULL, '$2a$10$.rW3MLTvv2cGBFOfClDy0.S816TJthjsPi3Rgeg2fJ1olkfc4A6ZS', 'admin');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '';
+FLUSH PRIVILEGES;
+
+UPDATE mysql.user SET plugin = 'mysql_native_password' WHERE user = 'root' AND plugin = 'unix_socket';
+FLUSH PRIVILEGES;
