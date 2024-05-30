@@ -18,6 +18,11 @@ cp iso/casper/filesystem.squashfs .
 
 sudo unsquashfs filesystem.squashfs
 
+
+sudo mount --bind /proc /squashfs-root/proc
+sudo mount --bind /sys /squashfs-root/sys
+sudo mount --bind /dev /squashfs-root/dev
+
 sudo chroot squashfs-root/  << 'EOF'
 
 mount none -t proc /proc; mount none -t sysfs /sys; mount none -t devpts /dev/pts
@@ -40,6 +45,11 @@ cd bpbx-scripts-main
 ./install_bpbx.sh
 
 
+ /bin/sh /usr/bin/mysqld_safe --user=mysql --datadir=/var/lib/mysql --socket=/var/run/mysqld/mysqld.sock
+chown -R mysql:mysql /var/lib/mysql
+chown -R mysql:mysql /var/run/mysqld/
+
+
 umount /proc
 umount /sys
 
@@ -58,7 +68,7 @@ sudo mksquashfs  squashfs-root/ filesystem.squashfs -comp xz -b 1M -noappend
 cp filesystem.squashfs ./iso/casper/
  md5sum iso/.disk/info > iso/md5sum.txt
  sed -i 's|iso/|./|g' iso/md5sum.txt
- xorriso -as mkisofs -r -V "BPBX amd64" -o bpbx-1.0.0-amd64.iso -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat -isohybrid-apm-hfsplus -isohybrid-mbr iso/isolinux/isohdpfx.bin iso/boot iso
+ xorriso -as mkisofs -r -V "BPBX amd64" -o bpbx-1.0.1-amd64.iso -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot -isohybrid-gpt-basdat -isohybrid-apm-hfsplus -isohybrid-mbr iso/isolinux/isohdpfx.bin iso/boot iso
 
 
  fdisk -lu bpbx-1.0.0-amd64.iso 

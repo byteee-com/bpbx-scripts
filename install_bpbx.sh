@@ -160,13 +160,10 @@ echo -e "************************************************************"
 
 
 
-sudo cp start_bpbx.sh /usr/local/bin/
-sudo cp stop_bpbx.sh /usr/local/bin/
+sudo cp -rf scripts/* /usr/local/bin/
+sudo chmod +x /usr/local/bin/*.sh
 
-sudo chmod +x /usr/local/bin/start_bpbx.sh
-sudo chmod +x /usr/local/bin/stop_bpbx.sh
-
-sudo cp bpbx.service /etc/systemd/system/
+sudo cp -rf bpbx.service /etc/systemd/system/
 
 sudo systemctl daemon-reload
 

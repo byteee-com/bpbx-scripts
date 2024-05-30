@@ -53,7 +53,7 @@ CREATE TABLE `cdr` (
   `peeraccount` varchar(80) DEFAULT NULL,
   `sequence` int DEFAULT NULL,
   `calldate` datetime(6) DEFAULT NULL,
-  `id` bigint NOT NULL
+  `id` bigint NOT NULL AUTO_INCREMENT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
