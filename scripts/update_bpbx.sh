@@ -19,8 +19,8 @@ cp -rf "$TEMP_DIR/config/asterisk/" /etc/asterisk
 chmod -R 755 /etc/asterisk
 chown -R asterisk:asterisk /etc/asterisk
 
-cp -rf "$TEMP_DIR/bpbx.jar" /opt/bpbx/
-cp -rf "$TEMP_DIR/web/*" /opt/bpbx/web/
+cp -rf $TEMP_DIR/bpbx.jar /opt/bpbx/
+cp -rf $TEMP_DIR/web/* /opt/bpbx/web/
 
 # 删除临时目录
 rm -rf "$TEMP_DIR"
